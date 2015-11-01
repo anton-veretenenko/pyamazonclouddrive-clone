@@ -51,7 +51,7 @@ def login(email=None,password=None,session=None):
   end_point="https://"+pyacd.amazon_domain+"/clouddrive?sf=1&ref_=cd_home_sign_bnh"
   html=pyacd.do_get(end_point)
 
-  NOT_LOGGED_INS=[r"ue_url='\/gp\/feature\.html",r'<form name="signIn" method="POST"',r'id="sign-in-container"']
+  NOT_LOGGED_INS=[r"ue_url='\/gp\/feature\.html",r'<form name="signIn" method="POST"',r'id="ap_signin_form"']
   CONTINUE_REQUIRED=r'<form action="\/clouddrive" id="continueForm"'
 
   if False in [re.search(x,html) is None for x in NOT_LOGGED_INS]:
@@ -83,7 +83,7 @@ def login(email=None,password=None,session=None):
     html=pyacd.do_post(action,body)
 
   try:
-    pyacd.session.customer_id=re.search('customerId: "(.+)"', html).groups()[0]
+    pyacd.session.customer_id=re.search("customerId: '(.+)'", html).groups()[0]
     pyacd.session.username="<deprecated>"
 
     if re.search(r"ADrive\.touValidate = true;",html):
