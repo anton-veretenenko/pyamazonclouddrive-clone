@@ -83,7 +83,7 @@ def login(email=None,password=None,session=None):
     html=pyacd.do_post(action,body)
 
   try:
-    pyacd.session.customer_id=re.search("customerId: '(.+)'", html).groups()[0]
+    pyacd.session.customer_id=re.search("customerId.*?:.*?(\"|')(.*?)(\"|')", html).groups()[1]
     pyacd.session.username="<deprecated>"
 
     if re.search(r"ADrive\.touValidate = true;",html):
